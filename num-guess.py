@@ -28,7 +28,6 @@ Please select the difficulty level:
 3. Hard (3 chances)\n
 ''')
     level = {1: "Easy", 2: "Medium", 3: "Hard"}
-    chances = {1: 10, 2: 5, 3: 3}
     choice = int(input("Enter your choice -> "))
 
     print(f"\nGreat! You have selected the {level[choice]} difficulty level.")
