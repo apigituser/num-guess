@@ -7,46 +7,66 @@ def welcomeMessage():
     print("These are the difficulty levels")
     print("1 -> Easy (10 chances)\n2 -> Medium (5 chances)\n3 -> Hard (3 chances)\n")
 
-def checkGuess():
+def guessInput():
+    while True:
+        try:
+            guess = int(input("Enter your guess -> "))
+            if (guess > 100) or (guess < 1):
+                print("The number should be between 1-100")
+                continue
+            return guess
+        except ValueError:
+            print("That's not a number")
+            continue
+
+def checkGuess(chances, answer):
     startTime = datetime.datetime.now()
-    for attempts in range(1, chances+1):
-        guess = int(input("Enter your guess -> "))
+    
+    for attempts in range(1, chances + 1):
+        guess = guessInput()
         if guess == answer:
             endTime = datetime.datetime.now() - startTime
             print(f"Congrats, You guessed the correct number in {attempts} attempts")
             print(f"Which took you {endTime.seconds} seconds")
-            break
+            return attempts
         elif guess > answer:
-            print(f"Not quite, The number is smaller than {guess}")
+            print(f"WRONG! It's lower")
         else:
-            print(f"Try again, The number is greater than {guess}")
-    return attempts
-
-if __name__ == '__main__':
-    welcomeMessage()
+            print(f"INCORRECT! It's Higher")
     
+def selectLevel():
     while True:
         choice = input("Choose one -> ")
         if choice not in ('1','2','3'):
             print("Select a valid level [1,2,3]")
             continue
-        break
+        return choice
+
+def main():
+    welcomeMessage()
+
+    choice = selectLevel()
     
     play = 'yes'
-    main = {'1': ["Easy", 10, 10], '2': ["Medium", 5, 5], '3': ["Hard", 3, 3]}      ## {choice : [ level , chances, highscore ]}
-    level = main[choice][0]
-    chances = main[choice][1]
-    highscore = main[choice][2]
-
-    print("Alright then\nLet's start the game :)\n")
+    settings = {'1': ("Easy", 10), '2': ("Medium", 5), '3': ("Hard", 3)}
+    level, chances = settings[choice]
+    highscore = chances
 
     while(play == 'yes'):
         answer = random.randint(1,100)
-        attempts = checkGuess()
-        if attempts < highscore:
-            highscore = attempts
-            print(f"Congrats! You achieved a new high score!\n{attempts} attempts at {level} level!")    
-        play = input("Do you wish to try again? (yes/no): ").lower()
+        attempts = checkGuess(chances, answer)
         
-    print("Thank you for playing the game!")
-    print("See you later!")
+        if attempts == None:
+            print("You ran out of chances")
+            print("Good luck next time")
+        elif attempts < highscore:
+            highscore = attempts
+            print(f"Congrats! You achieved a new high score!\n{attempts} attempts at {level} level!")
+        play = input("Do you wish to try again? (yes/no): ").lower()
+
+    print("Quitting Game ...")
+    print("... see you later")
+
+
+if __name__ == '__main__':
+    main()
