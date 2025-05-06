@@ -25,29 +25,29 @@ def checkGuess():
 
 if __name__ == '__main__':
     welcomeMessage()
-    choice = int(input("Choose one -> "))
-    highscore = {"Easy": 10, "Medium": 5, "Hard": 3}
-    play = 'yes'
-
-    match choice:
-        case 1:
-            chances = 10
-            level = "Easy"
-        case 2:
-            chances = 5
-            level = "Medium"
-        case 3: 
-            chances = 3
-            level = "Hard"
     
+    while True:
+        choice = input("Choose one -> ")
+        if choice not in ('1','2','3'):
+            print("Select a valid level [1,2,3]")
+            continue
+        break
+    
+    play = 'yes'
+    main = {'1': ["Easy", 10, 10], '2': ["Medium", 5, 5], '3': ["Hard", 3, 3]}      ## {choice : [ level , chances, highscore ]}
+    level = main[choice][0]
+    chances = main[choice][1]
+    highscore = main[choice][2]
+
     print("Alright then\nLet's start the game :)\n")
 
     while(play == 'yes'):
         answer = random.randint(1,100)
         attempts = checkGuess()
-        if attempts < highscore[level]:
-            highscore[level] = attempts
-            print(f"Congrats! You achieved a new high score!\n{attempts} attempts at {level} level!")
+        if attempts < highscore:
+            highscore = attempts
+            print(f"Congrats! You achieved a new high score!\n{attempts} attempts at {level} level!")    
         play = input("Do you wish to try again? (yes/no): ").lower()
+        
     print("Thank you for playing the game!")
     print("See you later!")
