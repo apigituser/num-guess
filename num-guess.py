@@ -1,6 +1,5 @@
 import random
 import datetime
-import json
 
 def welcomeMessage():
     print("Number Guessing Game")
